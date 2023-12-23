@@ -12,7 +12,7 @@ $mysqli = new mysqli($dbhost, $dbuser,$dbpass, $dbname);
 include 'connectionRescue.php';
 $email = $_SESSION['email'];
 
-$sql = "select * from water w join station s ON w.station_id = s.station_id where w.date in (select MAX(w.date) FROM water w GROUP by w.station_id)";
+$sql = "select * from water w join station s ON w.station_id = s.station_id where w.date in (select MAX(w.date) FROM water w GROUP by w.station_id) order by s.station_id";
 $result = $mysqli->query($sql);
 
 $mysqli->close();
