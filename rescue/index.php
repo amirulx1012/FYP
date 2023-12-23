@@ -71,7 +71,7 @@ $mysqli->close();
                 <th scope="col">WATER LEVEL READING</th>
                 <th scope="col">LAST UPDATE</th>
                 <th scope="col">STATUS</th>
-                <th scope="col">BUTTON</th>
+                <th scope="col">RESCUE BUTTON</th>
                 <th scope="col">ACTION</th>
               </tr>
             </thead>
@@ -109,7 +109,14 @@ $mysqli->close();
                             {
                                 $whatscolor = 'badge badge-danger';
                                 $msg ='Evacuation plan <a href="findrescue.php?station_id='.$rows['station_id'].'">click here</a> for more information.';
+
+                                //if station is true
+                                if($rows['rescue_stat'] == "true")
                                 $button = '<a href="activateres.php?station_id='.$rows['station_id'].'"><button type="button" class="btn btn-info">Activate Rescue</button></a>';
+
+                                else if($rows['rescue_stat'] == "false")
+                                $button = '<p style="color: red;">Activated</p>';
+
                             }
                 ?>
                 <td><span class="<?php echo $whatscolor; ?>"><?php echo $rows['level'];?></span></td>

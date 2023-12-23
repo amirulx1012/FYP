@@ -151,6 +151,11 @@ $mysqli->close();
             ?>
             </tbody>
           </table>
+          <br><br><br>
+          <center>
+          <a href="resetpps.php"><button type="button" class="btn btn-danger" onclick="return confirm('SURE?')">Reset PPS</button></a>
+          <a href="resetstation.php"><button type="button" class="btn btn-warning" onclick="return confirm('SURE?')">Reset Station</button></a>
+            </center>
     </section>
 
 
