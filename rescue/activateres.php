@@ -48,6 +48,9 @@ while($rows=$result->fetch_assoc())
             $count=0;
             while($count<$needbus and $rows['rescue_stat']=='true')
             {
+                ini_set('display_errors', 1);
+                ini_set('display_startup_errors', 1);
+                error_reporting(E_ALL);
                     $query = "INSERT INTO rescue (station_id,rescue_place,transport,pps_name,status) VALUES ($station_id,'$place','$transport','Not Selected','Pending')";
                     $rem = mysqli_query($mysqli,$query);
                     $count++;    
@@ -67,6 +70,9 @@ while($rows=$result->fetch_assoc())
             $count=0;
             while($count<$needboat and $rows['rescue_stat']=='true')
             {
+                ini_set('display_errors', 1);
+                ini_set('display_startup_errors', 1);
+                error_reporting(E_ALL);
                 $query = "INSERT INTO rescue (station_id,rescue_place,transport,pps_name,status) VALUES ($station_id,'$place','$transport','Not Selected','Pending')";
                     $rem = mysqli_query($mysqli,$query);
                     $count++;    
