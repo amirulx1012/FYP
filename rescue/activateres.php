@@ -23,28 +23,26 @@ $totbot = mysqli_fetch_array($boatz);
 while($rows=$result->fetch_assoc())
 {
     // check if water level is okay
-        if ($rows['level'] == 'DANGER MEDIUM' or $rows['level']== 'DANGER LOW' )
+    if ($rows['level']== 'DANGER MEDIUM' or $rows['level']== 'DANGER LOW' )
+    {
+    //bus
+            $resident=$rows['population'];
+            $needbus= $resident/$totcal['capacity'];
+            $needboat =0;
+            $transport = 'BUS'; 
+            $place = $rows['area'];
+    }
+    else if ($rows['level']=='DANGER HIGH')
+    {
+    //boat
+            $resident=$rows['population'];
+            $needboat= $resident/$totbot['capacity']; 
+            $needbus=0;
+            $transport = 'BOAT'; 
+            $place = $rows['area'];
+    }
+        if($transport=='BUS')
         {
-        //bus
-                $resident=$rows['population'];
-                $needbus= $resident/$totcal['capacity'];
-                $needboat =0;
-                $transport = 'BUS'; 
-                $place = $rows['area'];
-        }
-        else if ($rows['level']=='DANGER HIGH')
-        {
-        //boat
-                $resident=$rows['population'];
-                $needboat= $resident/$totbot['capacity']; 
-                $needbus=0;
-                $transport = 'BOAT'; 
-                $place = $rows['area'];
-        }
-        if($transport=='BUS' and $rows['rescue_stat']=='true')
-        {
-            $del= "DELETE FROM `rescue` WHERE station_id=$station_id";
-            $yapi = mysqli_query($mysqli,$del);
             $count=0;
             while($count<$needbus and $rows['rescue_stat']=='true')
             {
@@ -54,35 +52,26 @@ while($rows=$result->fetch_assoc())
             }
             $que= "UPDATE station SET rescue_stat='false' WHERE station_id=$station_id";
             $yap = mysqli_query($mysqli,$que);
-            echo ("<SCRIPT LANGUAGE='JavaScript'>
-            window.alert('Sucessfully Activate Rescue');
-            window.location.href='index.php';
-            </SCRIPT>");
 
         }
-        else if($transport=='BOAT' and $rows['rescue_stat']=='true')
+        else if($transport=='BOAT')
         {
-            $del= "DELETE FROM `rescue` WHERE station_id=$station_id";
-            $yapi = mysqli_query($mysqli,$del);
             $count=0;
             while($count<$needboat and $rows['rescue_stat']=='true')
             {
                 $query = "INSERT INTO rescue (station_id,rescue_place,transport,pps_name,status) VALUES ($station_id,'$place','$transport','Not Selected','Pending')";
                     $rem = mysqli_query($mysqli,$query);
                     $count++;    
-            }            
+            }
             $que= "UPDATE station SET rescue_stat='false' WHERE station_id=$station_id";
             $yap = mysqli_query($mysqli,$que);
-
-            echo ("<SCRIPT LANGUAGE='JavaScript'>
-            window.alert('Sucessfully Activate Rescue');
-            window.location.href='index.php';
-            </SCRIPT>");
         }
+        echo ("<SCRIPT LANGUAGE='JavaScript'>
+        window.alert('Sucessfully Activate Rescue');
+        window.location.href='index.php';
+        </SCRIPT>");
+
 }
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
 ?>
