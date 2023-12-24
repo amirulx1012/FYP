@@ -22,6 +22,8 @@ $totcal = mysqli_fetch_array($cal);
 $boatz = mysqli_query($mysqli, "select * from transportation where ID=2"); // using mysqli_query instead
 $totbot = mysqli_fetch_array($boatz);
 
+var_dump($totcal,$totbot);
+
 // LOOP TILL END OF DATA                   
 while($rows=$result->fetch_assoc())
 {
@@ -34,6 +36,8 @@ while($rows=$result->fetch_assoc())
                 $needboat =0;
                 $transport = 'BUS'; 
                 $place = $rows['area'];
+
+                var_dump($resident,$needbus,$needboat,$transport,$place);
         }
         else if ($rows['level']=='DANGER HIGH')
         {
@@ -43,6 +47,8 @@ while($rows=$result->fetch_assoc())
                 $needbus=0;
                 $transport = 'BOAT'; 
                 $place = $rows['area'];
+
+                var_dump($resident,$needbus,$needboat,$transport,$place);
         }
         if($transport=='BUS' and $rows['rescue_stat']=='true')
         {
@@ -51,19 +57,13 @@ while($rows=$result->fetch_assoc())
             $count=0;
             while($count<$needbus and $rows['rescue_stat']=='true')
             {
-                ini_set('display_errors', 1);
-                ini_set('display_startup_errors', 1);
-                error_reporting(E_ALL);
+                var_dump($count,$needbus;
                     $query = "INSERT INTO rescue (station_id,rescue_place,transport,pps_name,status) VALUES ($station_id,'$place','$transport','Not Selected','Pending')";
                     $rem = mysqli_query($mysqli,$query);
                     $count++;    
             }
             $que= "UPDATE station SET rescue_stat='false' WHERE station_id=$station_id";
             $yap = mysqli_query($mysqli,$que);
-            echo ("<SCRIPT LANGUAGE='JavaScript'>
-            window.alert('Sucessfully Activate Rescue');
-            window.location.href='index.php';
-            </SCRIPT>");
 
         }
         else if($transport=='BOAT' and $rows['rescue_stat']=='true')
@@ -81,10 +81,6 @@ while($rows=$result->fetch_assoc())
             $que= "UPDATE station SET rescue_stat='false' WHERE station_id=$station_id";
             $yap = mysqli_query($mysqli,$que);
 
-            echo ("<SCRIPT LANGUAGE='JavaScript'>
-            window.alert('Sucessfully Activate Rescue');
-            window.location.href='index.php';
-            </SCRIPT>");
         }
         else{
 
